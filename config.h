@@ -1,6 +1,3 @@
-/* See LICENSE file for copyright and license details. */
-
-/* appearance */
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int gappx     = 5;        /* gaps between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
@@ -20,7 +17,6 @@ static const char col_gray3[]       = "#434c5e";
 static const char col_gray4[]       = "#3b4252";
 static const char col_cyan[]        = "#005577";
 
-#define BROWSER "firefox-bin"
 #include "colors-wal-dwm.h"
 #include <X11/XF86keysym.h>
 
@@ -28,15 +24,10 @@ static const char col_cyan[]        = "#005577";
 static const char *tags[] = { "1", "2", "3", "4", "5", "6"};
 
 static const Rule rules[] = {
-	/* xprop(1):
-	 *	WM_CLASS(STRING) = instance, class
-	 *	WM_NAME(STRING) = title
-	 */
 	/* class     instance  title           tags mask  isfloating  isterminal  noswallow  monitor */
 	{ "Gimp",    NULL,     NULL,           0,         1,          0,           0,        -1 },
 	{ "Firefox", NULL,     NULL,           1 << 8,    0,          0,          -1,        -1 },
 	{ "st",      NULL,     NULL,           0,         0,          1,           0,        -1 },
-	{ "mpv",      NULL,     NULL,           0,         0,          1,           0,        -1 },
 	{ "discord",      NULL,     NULL,           1 << 4,         0,          1,           0,        -1 },
 	{ NULL,      NULL,     "Event Tester", 0,         0,          0,           1,        -1 }, /* xev */
 };
@@ -49,7 +40,6 @@ static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen win
 
 #include "fibonacci.c"
 static const Layout layouts[] = {
-	/* symbol     arrange function */
  	{ "[@]",      spiral },
 	{ "[]=",      tile },    /* first entry is default */
 	{ "><>",      NULL },    /* no layout function means floating behavior */
@@ -74,6 +64,7 @@ static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont,
 static const char *termcmd[]  = { "st", NULL };
 static const char *flamcmd[] = { "flameshot", "gui", NULL };
 static const char *hibernatecmd[] = { "loginctl", "hibernate", NULL };
+static const char *browsercmd[] = { "firefox-bin", NULL };
 
 static const char *mediaplaypausecmd[] = { "mpc", "toggle", NULL };
 static const char *mednextcmd[] = { "mpc", "next", NULL };
@@ -83,22 +74,17 @@ static const Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
 	{ MODKEY,             		      XK_Return, spawn,          {.v = termcmd } },
-	{ MODKEY,             		      XK_w, spawn,          {.v = (const char*[]) { BROWSER, NULL} } },
-	{ MODKEY,             		      XK_Print, spawn,          {.v = flamcmd } },
+	{ MODKEY,             		      XK_w,      spawn,          {.v = browsercmd } },
+	{ 0,             		            XK_Print,  spawn,          {.v = flamcmd } },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
 	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
-	//{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
 	{ MODKEY,                       XK_Return, zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ MODKEY,             		      XK_q,      killclient,     {0} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
-	// { MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
-	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
-	{ MODKEY,                       XK_r,      setlayout,      {.v = &layouts[3]} },
-	{ MODKEY|ShiftMask,             XK_r,      setlayout,      {.v = &layouts[4]} },
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY,                       XK_f,      togglefullscr,  {0} },
@@ -127,8 +113,6 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_e,      quit,           {0} },
 };
 
-/* button definitions */
-/* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
 static const Button buttons[] = {
 	/* click                event mask      button          function        argument */
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
